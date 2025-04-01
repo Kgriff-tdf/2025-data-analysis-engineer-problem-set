@@ -1,1 +1,6 @@
+Select Sum(case when country = 'USA' and status = 'open' Then 1
+            else 0
+            End)*100.00/Count(*) as us_active_share
+From fb_active_users;
 
+used both hints to get this as my subquery approach was returning multiple rows instead of one number
