@@ -3,3 +3,4 @@ select fe.client_id
 , Count(Distinct user_id) as user_num 
 from fact_events fe
 group by fe.client_id, Month(fe.time_id);
+
