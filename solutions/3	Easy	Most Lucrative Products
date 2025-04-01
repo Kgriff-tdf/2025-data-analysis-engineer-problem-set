@@ -1,1 +1,7 @@
-
+select Top(5)product_id,
+Sum(cost_in_dollars*units_sold) as revenue 
+from online_orders
+Where Year(date_sold) = 2022
+and Month(date_sold) between 1 and 6
+Group by product_id
+Order by revenue desc;
