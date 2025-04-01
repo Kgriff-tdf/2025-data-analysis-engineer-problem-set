@@ -1,1 +1,5 @@
-
+With firstdate as (select user_id as user_id, min(created_at) as fdate from marketing_campaign Group by user_id),
+firstpurchase as (select fd.user_id as muser_id, fd.fdate as originaldate, mc.product_id as originalpurchase from firstdate fd left join marketing_campaign mc on mc.user_id = fd.user_id and mc.created_at = fd.fdate),
+removed as (select * from marketing_campaign mc left join firstpurchase fp on fp.muser_id = mc.user_id and fp.originalpurchase = mc.product_id Where fp.originaldate is null)
+select count(distinct user_id) as user_count from removed
+;
