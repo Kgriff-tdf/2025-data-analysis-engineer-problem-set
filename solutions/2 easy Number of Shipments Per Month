@@ -4,3 +4,4 @@ select CAST(DATEPART(YEAR, ash.shipment_date) AS VARCHAR(4)) + '-' +
 from amazon_shipment as ash
 Group by CAST(DATEPART(YEAR, ash.shipment_date) AS VARCHAR(4)) + '-' + 
     RIGHT('0' + CAST(DATEPART(MONTH, ash.shipment_date) AS VARCHAR(2)), 2);
+
