@@ -1,1 +1,11 @@
-
+With initialdates as (Select Top(7)entry_date as entry_date From premium_accounts_by_day Group by entry_date)
+, activeaccounts as (select id.entry_date as entry_date, pc.account_id as account_id, pc.final_price as final_price from premium_accounts_by_day as pc Join initialdates as id on id.entry_date = pc.entry_date Where pc.final_price <> 0)
+, checkdate as (Select DATEADD(DAY, 7, entry_date) as checkdate From initialdates)
+, stillpaying as (Select cd.checkdate as check_date, pc.account_id as spaccount_id, pc.final_price as checkfinal_price From premium_accounts_by_day as pc Join checkdate as cd on cd.checkdate = pc.entry_date Where pc.final_price <> 0)
+, final as (Select * From activeaccounts as ac Left Join stillpaying sp on sp.check_date = DATEADD(DAY, 7, ac.entry_date) and sp.spaccount_id = ac.account_id)
+Select entry_date
+, Count(account_id) as premium_paid_accounts
+, Count(spaccount_id) as premium_paid_accounts_after_7d
+from final
+Group by entry_date
+;
