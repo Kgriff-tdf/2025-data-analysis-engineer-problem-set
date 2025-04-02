@@ -1,1 +1,4 @@
-
+select Count(worker_id) 
+from worker 
+Where department = 'Admin' and month(joining_date) >= 04
+Group by department;
