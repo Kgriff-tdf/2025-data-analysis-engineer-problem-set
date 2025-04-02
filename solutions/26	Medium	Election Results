@@ -1,1 +1,7 @@
+With numofcadpervote as (Select distinct(voter) as actual, Count(voter) as numofcad From voting_results where candidate is not null group by voter),
+candidates as (Select distinct(candidate) as candidate from voting_results),
+voteamount as (Select actual as avote, numofcad as numofcad, Round((1.000/numofcad),3) as voteamounts From numofcadpervote),
+combined as (Select * From voting_results vr join voteamount va on vr.voter = va.avote where candidate is not null),
+votesrecieved as (Select candidate, Sum(voteamounts) as voterecieved From combined Group by candidate)
 
+select Top(1)candidate from votesrecieved order by voterecieved desc;
