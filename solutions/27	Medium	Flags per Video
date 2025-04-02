@@ -1,1 +1,5 @@
-
+select video_id
+, count(distinct(concat(user_firstname, ' ', user_lastname))) as users
+from user_flags
+Where flag_id is not null
+Group by video_id;
