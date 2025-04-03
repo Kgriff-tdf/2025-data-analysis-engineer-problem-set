@@ -1,1 +1,4 @@
-
+select department, count(worker_id) as number_of_workers from worker
+Where joining_date > '2014-04-01 00:00:00'
+Group by department
+Order by count(worker_id) desc;
