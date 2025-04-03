@@ -1,0 +1,9 @@
+with usernames as (Select uf.flag_id, Concat(uf.user_firstname, ' ', uf.user_lastname) as user_full_name From user_flags uf), --concat user name
+mostflaggedvideo as (Select uf.video_id, Concat(uf.user_firstname, ' ', uf.user_lastname) as user_full_name, Count(fr.reviewed_outcome) as approvedflags 
+From user_flags uf left Join flag_review fr on fr.flag_id = uf.flag_id 
+Where fr.reviewed_outcome = 'APPROVED' Group by uf.video_id, Concat(uf.user_firstname, ' ', uf.user_lastname))--find #of approved flags/video/user
+Select user_full_name 
+from mostflaggedvideo mfv 
+Group by user_full_name 
+Having Count(approvedflags) = (Select top(1)Count(approvedflags) as distinctvideoflags 
+from mostflaggedvideo mfv Group by user_full_name order by Count(approvedflags) desc);
