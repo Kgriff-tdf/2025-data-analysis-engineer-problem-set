@@ -1,0 +1,10 @@
+WITH RankedValues AS (SELECT sat_writing,
+        ROW_NUMBER() OVER (ORDER BY sat_writing) AS row_num,
+        COUNT(*) OVER () AS total_rows
+    FROM sat_scores),
+--rank writing scores and get row count
+median as (SELECT AVG(sat_writing) AS median_value
+FROM RankedValues
+WHERE row_num IN ((total_rows + 1) / 2, (total_rows - 1) / 2, (total_rows) / 2))
+--find median value
+select student_id from sat_scores sa join median m on sa.sat_writing = m.median_value;
