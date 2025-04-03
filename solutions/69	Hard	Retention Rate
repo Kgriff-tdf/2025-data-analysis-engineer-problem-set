@@ -1,0 +1,25 @@
+I might be making this harder than it should be 
+
+with dec20users as (select distinct account_id, user_id from sf_events where year(record_date) = '2020' and month(record_date) = '12'),
+--starting account_id and user_id for dec20
+dec20usercount as (Select account_id, Count(user_id) as dec_users From dec20users Group by account_id),
+--number of users in dec20 by account id
+jan21users as (select distinct account_id, user_id from sf_events where year(record_date) = '2021' and month(record_date) = '01'),
+--starting account_id and user_id for jan21
+jan21usercount as (Select account_id, Count(user_id) as jan_users From jan21users Group by account_id),
+--number of users in jan21 by account id
+ajan21user as (select distinct account_id, user_id from sf_events where (year(record_date) = '2021' and month(record_date) > '01') or year(record_date) > '2021'),
+--users after jan21
+adec20user as (select distinct account_id, user_id from sf_events where year(record_date) > '2020'),
+--users after dec20
+dec20ret as (Select du.account_id, Count(au.user_id) as dec_ret from dec20users du join adec20user au on du.user_id = au.user_id and du.account_id = au.account_id Group by du.account_id),
+--number of users by account id that where retained in dec20
+jan21ret as (Select ju.account_id, Count(au.user_id) as jan_ret from jan21users ju join ajan21user au on ju.user_id = au.user_id and ju.account_id = au.account_id Group by ju.account_id),
+--number of users by account id that where retained in jan21
+joined as (Select distinct se.account_id, case when duc.dec_users is null then 0 else duc.dec_users  end as dec_users, case when dr.dec_ret is null then 0 else dr.dec_ret end as dec_ret, case when juc.jan_users is null then 0 else juc.jan_users end as jan_users, case when jr.jan_ret is null then 0 else jr.jan_ret end as jan_ret from sf_events se left Join dec20usercount duc on duc.account_id = se.account_id left Join dec20ret dr on dr.account_id = se.account_id left Join jan21usercount juc on juc.account_id = se.account_id left Join jan21ret jr on jr.account_id = se.account_id),
+-- put needed info in one table
+rates as ( Select account_id, (cast(jan_ret as float))/(cast(jan_users as float)) as janrate, (cast(dec_ret as float))/(cast(dec_users as float)) as decrate From joined),
+--calculate retention rates
+ratio as (select account_id, CASE WHEN decrate = 0 THEN 0 ELSE (janrate / decrate) END AS retention_ratio from rates)
+--calculate ratios
+Select * From ratio;
