@@ -1,1 +1,2 @@
-
+select Distinct(year_rank), group_name, song_name from billboard_top_100_year_end
+Where year = 2010 and year_rank <= 10;
