@@ -1,1 +1,10 @@
-
+nice reminded to copy/paste to reduce errors on spelling
+select Distinct(business_name),
+Case when business_name LIKE '%restaurant%' then 'restaurant'
+when business_name LIKE '%cafe%' then 'cafe'
+when business_name LIKE '%café%' then 'cafe'
+when business_name LIKE '%coffee%' then 'cafe'
+when business_name LIKE '%school%' then 'school'
+else 'other'
+end as classification
+from sf_restaurant_health_violations;
