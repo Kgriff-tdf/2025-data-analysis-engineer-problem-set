@@ -1,0 +1,7 @@
+With info as (select type
+, (SELECT COUNT(FC.PROCESSED) FROM FACEBOOK_COMPLAINTS FC WHERE FC.TYPE = TYPE AND FC.PROCESSED = 'TRUE') as processed
+, (SELECT COUNT(FC.PROCESSED) FROM FACEBOOK_COMPLAINTS FC WHERE FC.TYPE = TYPE) as total
+from facebook_complaints
+Group by type)
+Select type, Round((cast(processed as decimal(4,2)))/(cast(total as decimal(4,2))), 2) as processed_rate
+From info
