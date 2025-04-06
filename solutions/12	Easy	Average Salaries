@@ -1,0 +1,5 @@
+select e1.department
+, e1.first_name
+, e1.salary
+, (Select Avg(e2.salary) From employee e2 where e2.department = e1.department) avg_for_deparment
+from employee e1
