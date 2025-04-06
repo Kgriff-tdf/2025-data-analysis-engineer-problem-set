@@ -1,1 +1,13 @@
 This one took a few different attempts before getting it right
+
+WITH NumberedPages AS (SELECT ROW_NUMBER() OVER (ORDER BY (page_number)) - 1  AS row_index, page_number, title FROM cookbook_titles),
+allLeftpages as (SELECT row_index, (ROW_NUMBER() OVER (ORDER BY row_index) - 1) * 2 AS even_numbers FROM NumberedPages),
+left_title AS (SELECT row_index, page_number, title FROM NumberedPages WHERE page_number % 2 = 0),
+right_title AS (SELECT row_index, page_number, title FROM NumberedPages WHERE page_number % 2 != 0)  
+Select alp.even_numbers as left_page_number
+, lt.title as left_title
+, rt.title as right_title
+from allLeftpages alp 
+left join left_title lt on alp.even_numbers = lt.page_number
+left join right_title rt on alp.even_numbers = rt.page_number - 1
+
