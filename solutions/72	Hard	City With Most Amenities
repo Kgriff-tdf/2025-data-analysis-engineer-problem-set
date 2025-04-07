@@ -1,1 +1,4 @@
-
+With clean as (Select city, replace(replace(replace(amenities, '"',''), '{', ''), '}', '') as cleaned from airbnb_search_details),
+seperated as (select city, value as amenity from clean CROSS APPLY STRING_SPLIT(cleaned, ',')),
+counted as (Select city, Count(amenity) as total_amenities from seperated Group by city)
+Select Top(1)city From counted order by total_amenities desc;
