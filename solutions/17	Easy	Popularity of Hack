@@ -1,1 +1,5 @@
-
+select fe.location, round(avg(cast(popularity as float)),2) as average_popularity
+from facebook_employees fe
+join facebook_hack_survey fhs
+on fhs.employee_id = fe.id
+Group by fe.location;
