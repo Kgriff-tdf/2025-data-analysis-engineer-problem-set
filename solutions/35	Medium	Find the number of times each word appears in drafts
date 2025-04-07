@@ -1,1 +1,5 @@
 
+With cleanedtext as (select REPlACE(REPLACE(contents, ',', ''), '.', '') as cleaned
+from google_file_store),
+seperatedtext as (SELECT value AS word FROM cleanedtext CROSS APPLY STRING_SPLIT(cleaned, ' '))
+select word, Count(word) as occurences From seperatedtext Group by word;
