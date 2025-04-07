@@ -1,1 +1,10 @@
-
+With firstc as (Select * From titanic where pclass = 1),
+secondc as (Select * From titanic where pclass = 2),
+thirdc as (Select * From titanic where pclass = 3)
+Select t.survived, Count(f.pclass) as first_class,
+Count(s.pclass) as second_class, Count(h.pclass) as third_class
+From titanic t
+left Join firstc f on f.passengerid = t.passengerid
+left Join secondc s on s.passengerid = t.passengerid
+left Join thirdc h on h.passengerid = t.passengerid
+Group by t.survived;
