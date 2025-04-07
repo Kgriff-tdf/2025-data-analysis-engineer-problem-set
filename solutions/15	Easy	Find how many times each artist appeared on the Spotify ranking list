@@ -1,0 +1,4 @@
+select artist, Count(id) as number_of_occurences
+from spotify_worldwide_daily_song_ranking
+Group by artist
+order by Count(id) desc;
