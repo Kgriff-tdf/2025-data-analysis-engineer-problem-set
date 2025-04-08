@@ -1,1 +1,3 @@
-
+select Count(movie) from oscar_nominees
+where nominee = 'Abigail Breslin'
+Group by nominee;
