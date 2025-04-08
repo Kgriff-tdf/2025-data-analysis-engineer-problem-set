@@ -1,1 +1,4 @@
-
+select hotel_name, reviewer_score, count(review_date) as number_of_reviews from hotel_reviews
+where hotel_name = 'Hotel Arena'
+Group by hotel_name, reviewer_score
+;
