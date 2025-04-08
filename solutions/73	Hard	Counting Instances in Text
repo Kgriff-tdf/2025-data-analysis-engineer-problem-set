@@ -1,1 +1,4 @@
-
+With clean as (Select replace(replace(contents, '.',''), ',', '') as cleaned from google_file_store),
+seperated as (select value as word from clean CROSS APPLY STRING_SPLIT(cleaned, ' ')),
+grouped as (Select word, count(word) as number_of_occurences from seperated where word = 'bull' or word = 'bear' Group by word)
+select * from grouped;
