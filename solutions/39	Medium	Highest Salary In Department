@@ -1,1 +1,4 @@
-
+with maxsalary as (select department, max(salary) as highestsalary from employee
+Group by department) 
+Select e.department, first_name, salary from employee e
+join maxsalary m on m.department = e.department and m.highestsalary = e.salary;
