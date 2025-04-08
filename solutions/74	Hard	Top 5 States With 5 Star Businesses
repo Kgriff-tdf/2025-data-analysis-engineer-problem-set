@@ -1,1 +1,7 @@
-
+with counts as (select count(business_id) as five_star_businesses from yelp_business where stars = 5 Group by state),
+states5stars as (select state, count(business_id) as five_star_businesses from yelp_business
+where stars = 5 Group by state),
+dcounts as (select distinct top(5)five_star_businesses from counts order by five_star_businesses desc )
+Select s.state, s.five_star_businesses from states5stars s
+inner join dcounts f on f.five_star_businesses = s.five_star_businesses
+Order by s.five_star_businesses desc, s.state
