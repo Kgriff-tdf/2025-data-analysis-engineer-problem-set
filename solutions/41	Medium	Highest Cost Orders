@@ -1,0 +1,5 @@
+select top(1)c.first_name, o.order_date, sum(total_order_cost) as daily_total from customers c
+join orders o on o.cust_id = c.id
+where order_date between '2019-02-01' and '2019-05-01'
+Group by c.first_name, o.order_date
+Order by sum(total_order_cost) desc;
