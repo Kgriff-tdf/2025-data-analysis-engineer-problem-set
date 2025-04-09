@@ -1,1 +1,8 @@
-
+With user1s as (select user1, Count(user1) as mutual_count from facebook_friends Group by user1),
+user2s as (select user2, Count(user2) as mutual_count from facebook_friends Group by user2),
+unionuser as (Select user1 as fbuser, mutual_count from user1s union Select user2 as fbuser, mutual_count from user2s),
+combined as (Select fbuser, sum(mutual_count) as mutual_count From unionuser group by fbuser),
+totalusers as (Select Count(*) as total_users From combined)
+Select fbuser, 100*((cast(mutual_count as float))/(Select cast(total_users as float) from totalusers)) as popularity_percent 
+from combined
+;
