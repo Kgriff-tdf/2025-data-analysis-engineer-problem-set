@@ -1,1 +1,5 @@
-
+With selectcolumns as (select first_name, target from salesforce_employees
+where manager_id = 13),
+maxtarget as (Select max(target) as target From salesforce_employees where manager_id = 13)
+Select s.first_name, s.target From selectcolumns s
+join maxtarget m on m.target = s.target;
