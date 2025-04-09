@@ -1,1 +1,5 @@
-
+select top(1)games, Count(distinct name) as athletes_count from olympics_athletes_events
+where sport is not null
+Group by games
+Order by athletes_count desc;
+Select * from olympics_athletes_events
