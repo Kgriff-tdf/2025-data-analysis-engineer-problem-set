@@ -1,0 +1,4 @@
+select trackname, Count(position) as numboftop from spotify_worldwide_daily_song_ranking
+where position = 1
+Group by trackname
+Order by Count(position) desc;
