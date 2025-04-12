@@ -1,0 +1,3 @@
+With maxcool as (Select Top(1)cool From yelp_reviews order by cool desc)
+select business_name, review_text from yelp_reviews y
+Join maxcool m on m.cool = y.cool;
