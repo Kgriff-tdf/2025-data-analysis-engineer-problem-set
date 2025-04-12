@@ -1,0 +1,5 @@
+With totalfb as (select date, consumption from fb_eu_energy e
+union Select date, consumption from fb_asia_energy union Select date, consumption from fb_na_energy ),
+groupedcons as (Select date, Sum(consumption) as total_consumption from totalfb group by date),
+topcons as (Select Max(total_consumption) as total_consumption from groupedcons)
+Select g.date, g.total_consumption From groupedcons g join topcons t on g.total_consumption = t.total_consumption;
