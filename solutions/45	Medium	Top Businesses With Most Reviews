@@ -1,0 +1,2 @@
+With numofre as (select top(5)review_count from yelp_business order by review_count desc)
+select yb.name, yb.review_count from yelp_business yb join numofre n on n.review_count = yb.review_count order by yb.review_count desc;
