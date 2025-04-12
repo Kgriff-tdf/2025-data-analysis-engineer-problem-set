@@ -1,0 +1,3 @@
+With dcats as (Select review_count, value as category From yelp_business CROSS APPLY
+    STRING_SPLIT(categories, ';'))
+select category, Sum(review_count) as total_reviews from dcats Group by category order by Sum(review_count) desc;
