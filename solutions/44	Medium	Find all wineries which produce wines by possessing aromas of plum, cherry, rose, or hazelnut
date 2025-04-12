@@ -1,0 +1,19 @@
+select winery 
+from winemag_p1
+Where description like '%plum[ %+-*/]%'
+or description like '%cherry[ %+-*/]%'
+or description like '%rose[ %+-*/]%'
+or description like '%hazelnut[ %+-*/]%'
+or description like '%plum,%'
+or description like '%cherry,%'
+or description like '%rose,%'
+or description like '%hazelnut,%'
+or description like '%plum.%'
+or description like '%cherry.%'
+or description like '%rose.%'
+or description like '%hazelnut.%'
+or description like '%plum-%'
+or description like '%cherry-%'
+or description like '%rose-%'
+or description like '%hazelnut-%'
+order by winery; 
