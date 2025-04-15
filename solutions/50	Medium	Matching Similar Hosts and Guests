@@ -1,0 +1,3 @@
+with startpair as (Select host_id, nationality as hnation, gender as hgen from airbnb_hosts),
+guestside as (Select guest_id, nationality as gnation, gender as ggen from airbnb_guests)
+Select distinct host_id, guest_id from startpair s join guestside g on g.gnation = s.hnation and g.ggen = s.hgen;
