@@ -1,0 +1,5 @@
+with total_orders as (Select count(*) as total, 0 as ship from orders),
+shippable as (select count(*) as ship, 0 as total from orders o 
+Join customers c on c.id = o.cust_id where c.address is not null),
+uniont as (Select t.total, s.ship from total_orders t join shippable s on s.total = t.ship)
+Select concat((100*((cast(ship as float))/(cast(total as float)))), '%') from uniont;
