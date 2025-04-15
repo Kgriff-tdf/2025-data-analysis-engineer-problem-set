@@ -1,0 +1,5 @@
+With allviewed as (select p.post_date, p.post_id, p.post_keywords, v.viewer_id from facebook_posts p Join facebook_post_views v on v.post_id = p.post_id),
+totalbyday as (Select post_date, count(post_id) as total from allviewed group by post_date),
+spambyday as (Select post_date, count(post_id) as spam from allviewed where post_keywords like '%spam%' group by post_date)
+Select t.post_date, (100*((cast(spam as float))/(cast(total as float)))) as spam_share from totalbyday t join spambyday s on s.post_date = t.post_date 
+;
