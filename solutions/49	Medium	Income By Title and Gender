@@ -1,0 +1,4 @@
+with sf_employee_c as (Select e.id, e.employee_title, e.sex, e.salary, b.bonus From sf_employee e join sf_bonus b on b.worker_ref_id = e.id where b.bonus is not null),
+sf_employee_t as (Select id, employee_title, sex, (Sum(bonus)+salary) as total from sf_employee_c Group by id, employee_title, sex, salary)
+select e.employee_title, e.sex, avg(e.total) from sf_employee_t e
+Group by e.employee_title, e.sex;
