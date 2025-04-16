@@ -1,0 +1,7 @@
+With allinfo as (Select distinct u.user_id, u.language, e.device From playbook_users u join playbook_events e on e.user_id = u.user_id),
+apples as (select distinct user_id, language from allinfo where device = 'macbook pro' or device = 'iphone 5s' or device = 'ipad air'),
+totals as (select distinct user_id, language from allinfo),
+appleuse as (select language, count(*) as appleusers from apples group by language),
+totaluse as (select language, Count(*) as total from totals group by language),
+combined as (select t.language, case when appleusers is null then 0 else appleusers end as appleuser, total from totaluse t left join appleuse a on t.language = a.language)
+Select language, appleuser as n_apple_users, total as n_total_users from combined order by total desc;
