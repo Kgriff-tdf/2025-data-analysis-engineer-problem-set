@@ -1,0 +1,5 @@
+with adates as (select date, action as accepted, user_id_receiver, user_id_sender from fb_friend_requests where action = 'accepted'),
+sdates as (select date, action as sent, user_id_receiver, user_id_sender from fb_friend_requests where action = 'sent'),
+cdates as (select s.date, Count(accepted) as accepted from adates a join sdates s on a.user_id_receiver = s.user_id_receiver and a.user_id_sender = s.user_id_sender group by s.date),
+fdates as (Select a.date, accepted as n, Count(sent) as d From cdates a join sdates s on s.date = a.date Group by a.date, accepted)
+select date, ((cast(100*n as float))/(cast(100*d as float))) as acceptance_rate from fdates;
