@@ -1,0 +1,4 @@
+with exclud as (Select cust_id as id from orders where order_date between '2019-02-01' and '2019-03-01'),
+rest as (Select c.id from customers c left join exclud e on c.id = e.id where e.id is null),
+final as (Select first_name from customers c join rest r on c.id = r.id)
+Select * from final;
