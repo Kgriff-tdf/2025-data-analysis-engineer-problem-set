@@ -1,0 +1,8 @@
+With aclicked as (select Count(*) as clicked, 0 as id from fb_search_events where clicked = 1 and search_results_position <= 3),
+nclicked as (select Count(*) as not_clicked, 0 as id from fb_search_events where clicked = 0 and search_results_position <= 3),
+tclicked as (select Count(*) as total, 0 as id from fb_search_events),
+cclicked as (Select total, clicked, not_clicked from tclicked t join nclicked n on n.id = t.id join aclicked a on a.id = t.id)
+Select 100*((cast(100*clicked as float))/(cast(100*total as float)))
+, 100*((cast(100*not_clicked as float))/(cast(100*total as float)))
+From cclicked
+;
