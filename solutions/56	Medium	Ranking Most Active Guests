@@ -1,0 +1,3 @@
+With counts as (select id_guest as id, sum(n_messages) as total from airbnb_contacts Group by id_guest),
+final as (Select id, DENSE_RANK() OVER (ORDER BY total desc) as ranks, total from counts)
+Select ranks, id, total from final ;
