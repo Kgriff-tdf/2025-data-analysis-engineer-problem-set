@@ -1,0 +1,5 @@
+select top(1)h.nationality, Count(distinct u.unit_id) from airbnb_hosts h
+join airbnb_units u on u.host_id = h.host_id
+where age < 30 and unit_type = 'Apartment'
+Group by nationality
+Order by Count(unit_id) desc;
