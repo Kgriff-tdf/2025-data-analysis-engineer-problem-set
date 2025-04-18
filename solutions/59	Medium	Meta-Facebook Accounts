@@ -1,0 +1,3 @@
+With total as (select Count(*) as total, 0 as id from fb_account_status where date = '2020-01-10'),
+closed as (select Count(*) as closed, 0 as id from fb_account_status where date = '2020-01-10' and status = 'closed')
+Select ((cast(closed as float))/(cast(total as float))) as ratio From closed c join total t on t.id = c.id;
