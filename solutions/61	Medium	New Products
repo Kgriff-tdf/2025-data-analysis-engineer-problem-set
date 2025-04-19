@@ -1,0 +1,6 @@
+with grouped as (select year, company_name, Count(product_name) as products from car_launches group by year, company_name),
+grouped2019 as (select year, company_name, products from grouped where year = 2019),
+grouped2020 as (select year, company_name, products from grouped where year = 2020),
+merged as (select g1.company_name, g2.products - g1.products as net_difference from grouped2019 g1 join grouped2020 g2 on g1.company_name = g2.company_name)
+select * From merged order by net_difference desc
+;
