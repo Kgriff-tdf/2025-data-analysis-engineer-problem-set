@@ -1,0 +1,2 @@
+with tops as (select max(salary) as topsalary from worker)
+Select worker_title from title t join worker w on t.worker_ref_id = w.worker_id join tops on tops.topsalary = w.salary;
