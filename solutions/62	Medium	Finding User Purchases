@@ -1,0 +1,5 @@
+with returning as (Select user_id, Count(id) as purchases from amazon_transactions group by user_id),
+active as (Select user_id, created_at, 
+LEAD(created_at) OVER (PARTITION BY user_id ORDER BY created_at) AS next_created_at,
+DATEDIFF(day, created_at, LEAD(created_at) OVER (PARTITION BY user_id  ORDER BY created_at)) AS dif from amazon_transactions)
+Select distinct user_id from active where dif <= 7;     
