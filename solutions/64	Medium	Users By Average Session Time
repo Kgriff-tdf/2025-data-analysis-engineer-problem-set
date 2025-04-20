@@ -1,0 +1,6 @@
+with startover as (Select *, row_number() over (order by user_id, timestamp) as dateid from facebook_web_log where action = 'page_load' or action = 'page_exit'),
+findsession as (Select s.user_id, s.timestamp as starttime, o.timestamp as stoptime, s.action as load, o.action from startover s left join startover o on s.dateid = o.dateid - 1),
+info as (Select * from findsession where load = 'page_load' and action = 'page_exit'),
+diff as (Select user_id, cast(datediff(second, starttime, stoptime) as float) as session from info)
+Select user_id, avg(session) as avgsession from diff group by user_id
+;
