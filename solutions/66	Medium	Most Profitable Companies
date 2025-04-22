@@ -1,0 +1,5 @@
+with dprofits as (Select distinct profits from forbes_global_2010_2014),
+firsttable as (select profits, row_number() over (order by profits desc) as ra from dprofits), 
+t3profit as (Select top(3)ra, profits from firsttable),
+comp as (Select Company, profits from forbes_global_2010_2014)
+Select company, t.profits from t3profit t join comp c on t.profits = c.profits order by ra;
